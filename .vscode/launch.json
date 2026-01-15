@@ -1,0 +1,16 @@
+{
+    "version" : "0.2.0",
+    "configurations": [
+        {
+
+            "name" : "Run PollywigEngine",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/PollywigEngine",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        }
+    ]
+}

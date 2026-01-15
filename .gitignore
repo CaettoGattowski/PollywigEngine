@@ -1,0 +1,48 @@
+# =================================
+# Build Artifacts
+# =================================
+/build/
+*.o
+*.obj
+*.so
+*.a
+*.dll
+*.dylib
+*.exe
+*out
+
+# =================================
+# CMake
+# =================================
+
+CMakeCache.txt
+CMakeFIles/
+cmake_install.cmake
+compile_commands.json
+*.user
+*.user.*
+Makefile
+*.ninja
+
+# =================================
+# VS Code
+# =================================
+.vscode/*.code-workspace
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/cmake-variants.json
+.vscode/.browse.vc.db
+.vscode/*.log
+
+# =================================
+# System Files
+# =================================
+.DS_Store
+Thumbs.db
+
+# =================================
+# Temporary Files
+# =================================
+*.tmp
+*.swp
+*.swo
