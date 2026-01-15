@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(PollywigEngine LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
@@ -27,6 +26,18 @@ add_subdirectory(external/assimp)
 add_subdirectory(external/glm)
 
 add_executable(PollywigEngine src/main.cpp)
+
+# Enable warnings and sanitizers for engine only
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    target_compile_options(PollywigEngine PRIVATE
+        -Wall -Wextra -Wpedantic
+        -Wshadow -Wnon-virtual-dtor
+        -Wold-style-cast -Wconversion
+        -Wsign-conversion -Wnull-dereference
+        -fsanitize=address,undefined
+    )
+    target_link_options(PollywigEngine PRIVATE -fsanitize=address,undefined)
+endif()
 
 target_link_libraries(PollywigEngine
     Vulkan::Vulkan

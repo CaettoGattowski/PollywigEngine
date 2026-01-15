@@ -1,46 +1,53 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/mat4x4.hpp>
-
 #include <stdexcept>
-#include <vector>
 #include <iostream>
-#include <cstdio>
 
-int main()
-{
-    if (!glfwInit()) {
+int main() {
+    if (!glfwInit())
         throw std::runtime_error("Failed to initialize GLFW");
-    }
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Test Window", nullptr, nullptr);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan Smoke Test", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
 
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+    glfwShowWindow(window);
 
-    printf("Extension COunt: %u\n", extensionCount);
+    // Vulkan instance (minimal)
+    VkInstance instance;
+    VkApplicationInfo appInfo{};
+    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pApplicationName = "SmokeTest";
+    appInfo.apiVersion = VK_API_VERSION_1_3;
 
-    glm::mat4 testMatrix(1.0f);
-    glm::vec4 testVector(1.0f);
+    uint32_t extCount = 0;
+    const char** exts = glfwGetRequiredInstanceExtensions(&extCount);
 
-    auto testResult = testMatrix * testVector;
-    (void)testResult; // suppress unused warning
+    VkInstanceCreateInfo createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo = &appInfo;
+    createInfo.enabledExtensionCount = extCount;
+    createInfo.ppEnabledExtensionNames = exts;
+
+    if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+        throw std::runtime_error("Failed to create Vulkan instance");
+
+    std::cout << "Vulkan instance created!\n";
 
     while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
+        glfwPollEvents();  // process window events
     }
 
+    vkDestroyInstance(instance, nullptr);
     glfwDestroyWindow(window);
     glfwTerminate();
+
     return 0;
 }
