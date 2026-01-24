@@ -3,6 +3,7 @@ project(PollywigEngine LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
@@ -26,6 +27,11 @@ add_subdirectory(external/assimp)
 add_subdirectory(external/glm)
 
 add_executable(PollywigEngine src/main.cpp)
+
+target_include_directories(PollywigEngine
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 # Enable warnings and sanitizers for engine only
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
