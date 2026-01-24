@@ -1,0 +1,12 @@
+{
+    "Class Function Definition": {
+        "prefix": "def",
+        "body": [
+            "${1:void} ${2:ClassName}::${3:functionName}(${4:args})",
+            "{",
+            "\t$0",
+            "}"
+        ],
+        "description": "Insert class function definition"
+    }
+}

@@ -26,7 +26,10 @@ add_subdirectory(external/assimp)
 # GLM
 add_subdirectory(external/glm)
 
-add_executable(PollywigEngine src/main.cpp)
+add_executable(PollywigEngine
+    src/main.cpp
+    src/VulkanRenderer.cpp
+)
 
 target_include_directories(PollywigEngine
     PRIVATE
