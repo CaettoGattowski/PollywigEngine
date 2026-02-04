@@ -12,7 +12,7 @@ VulkanRenderer vulkanRenderer;
 
 void initWindow(std::string wName = "Test Window", const int width = 800, const int height = 600)
 {
-	//glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11); // NEED BUFFER SURFACE FOR WAYLAND TO WORK, THIS IS JUST AN OVERRIDE! wayland window not shown until buffer is added to a surface!.
+	glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11); // NEED BUFFER SURFACE FOR WAYLAND TO WORK, THIS IS JUST AN OVERRIDE! wayland window not shown until buffer is added to a surface!.
 
 	// Initialise GLFW
 	glfwInit();
