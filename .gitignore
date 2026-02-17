@@ -24,6 +24,10 @@ compile_commands.json
 Makefile
 *.ninja
 
+# External library build outputs
+external/*/build/
+external/*/bin/
+
 # =================================
 # VS Code
 # =================================
@@ -46,3 +50,10 @@ Thumbs.db
 *.tmp
 *.swp
 *.swo
+*.log
+
+# =================================
+# Vulkan / engine caches
+# =================================
+*.vkconfig
+*.vulkan

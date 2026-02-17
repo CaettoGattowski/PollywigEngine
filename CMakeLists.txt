@@ -21,23 +21,35 @@ add_subdirectory(external/glfw)
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)
+set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/assimp)
 
 # GLM
 add_subdirectory(external/glm)
 
+# vk-bootstrap
+add_subdirectory(external/vk-bootstrap)
+
+# Jolt-Physics
+add_subdirectory(external/JoltPhysics)
+
 add_executable(PollywigEngine
     src/main.cpp
     src/VulkanRenderer.cpp
+    src/vma_impl.cpp
 )
 
-target_include_directories(PollywigEngine
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+target_include_directories(PollywigEngine PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-# Enable warnings and sanitizers for engine only
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+target_include_directories(PollywigEngine SYSTEM PRIVATE
+    external/VMA/include
+)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND
+    CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+
     target_compile_options(PollywigEngine PRIVATE
         -Wall -Wextra -Wpedantic
         -Wshadow -Wnon-virtual-dtor
@@ -45,12 +57,17 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
         -Wsign-conversion -Wnull-dereference
         -fsanitize=address,undefined
     )
-    target_link_options(PollywigEngine PRIVATE -fsanitize=address,undefined)
+
+    target_link_options(PollywigEngine PRIVATE
+        -fsanitize=address,undefined
+    )
 endif()
 
-target_link_libraries(PollywigEngine
+target_link_libraries(PollywigEngine PRIVATE
     Vulkan::Vulkan
     glfw
     assimp
-    glm
+    glm::glm
+    vk-bootstrap
+    Jolt
 )
