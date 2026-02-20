@@ -3,47 +3,59 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-
+#include <cstring>
 #include <stdexcept>
 #include <vector>
+#include <set>
 
+#include "VulkanValidation.h"
 #include "Utilities.h"
 
 class VulkanRenderer
 {
-
 public:
-    VulkanRenderer();
+	VulkanRenderer();
 
-    int init(GLFWwindow * newWindow);
-    void cleanup();
+	int init(GLFWwindow * newWindow);
+	void cleanup();
 
-    ~VulkanRenderer();
+	~VulkanRenderer();
 
 private:
-    GLFWwindow * window;
+	GLFWwindow * window;
 
-    // Vulkan Components
-    VkInstance instance;
-    struct {
-        VkPhysicalDevice physicalDevice;
-        VkDevice logicalDevice;
-    } mainDevice;
-    VkQueue graphicsQueue;
+	// Vulkan Components
+	VkInstance instance;
+	VkDebugReportCallbackEXT callback;
+	struct {
+		VkPhysicalDevice physicalDevice;
+		VkDevice logicalDevice;
+	} mainDevice;
+	VkQueue graphicsQueue;
+	VkQueue presentationQueue;
+	VkSurfaceKHR surface;
 
-    // Vulkan Functions
-    // - Create Functions
-    void createInstance();
-    void createLogicalDevice();
 
-    // - Get Functions
-    void getPhysicalDevice();
+	// Vulkan Functions
+	// - Create Functions
+	void createInstance();
+	void createDebugCallback();
+	void createLogicalDevice();
+	void createSurface();
 
-    // - Support Functions
-    // -- Checker Functions
-    bool checkInstanceExtensionSupport(std::vector<const char*> * checkExtensions);
-    bool checkDeviceSuitable(VkPhysicalDevice device);
+	// - Get Functions
+	void getPhysicalDevice();
 
-    // -- Getter Functions
-    QueueFamilyIndices getQueueFamilies(VkPhysicalDevice device);
+	// - Support Functions
+	// -- Checker Functions
+	bool checkInstanceExtensionSupport(std::vector<const char*> * checkExtensions);
+	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+	bool checkValidationLayerSupport();
+	bool checkDeviceSuitable(VkPhysicalDevice device);
+
+	// -- Getter Functions
+	QueueFamilyIndices getQueueFamilies(VkPhysicalDevice device);
+	SwapChainDetails getSwapChainDetails(VkPhysicalDevice device);
+
 };
+
