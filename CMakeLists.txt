@@ -24,9 +24,7 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/glfw)
 
 
-# =================================
 # Minizip (for Assimp)
-# =================================
 # Try to locate Minizip headers cross-platform
 if(NOT MINIZIP_INCLUDE_DIR)
     if(WIN32)
@@ -56,9 +54,8 @@ else()
     include_directories(SYSTEM ${MINIZIP_INCLUDE_DIR})
 endif()
 
-# =================================
+
 # Assimp
-# =================================
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)
