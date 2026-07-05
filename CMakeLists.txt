@@ -68,8 +68,8 @@ add_subdirectory(external/glm)
 # vk-bootstrap
 add_subdirectory(external/vk-bootstrap)
 
-# Jolt-Physics
-add_subdirectory(external/JoltPhysics)
+# Box3D
+add_subdirectory(external/Box3D)
 
 add_executable(PollywigEngine
     src/main.cpp
@@ -111,6 +111,6 @@ target_link_libraries(PollywigEngine PRIVATE
     assimp
     glm::glm
     vk-bootstrap
-    Jolt
+    box3d
     ${ZLIB_LIBRARIES}
 )
